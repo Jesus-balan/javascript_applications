@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+        .student {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .student:hover {
+            background-color: #f1f1f1;
+        }
+        .student span {
+            font-size: 18px;
+            color: #555;
+        }
+        .button {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .button:active {
+            transform: scale(0.98);
+        }
+        .status {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        #attendanceReport {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            display: none;
+        }
+        #attendanceReport p {
+            margin: 5px 0;
+        }
+        .generate-button {
+            background-color: #007BFF;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .generate-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Student Attendance</h2>
+    
+    <!-- List of students with attendance buttons -->
+    <div class="student">
+        <span>John Doe</span>
+        <button class="button" onclick="markAttendance('John Doe')">Mark Present</button>
+        <span id="John Doe" class="status"></span>
+    </div>
+    <div class="student">
+        <span>Jane Smith</span>
+        <button class="button" onclick="markAttendance('Jane Smith')">Mark Present</button>
+        <span id="Jane Smith" class="status"></span>
+    </div>
+    <div class="student">
+        <span>Mary Johnson</span>
+        <button class="button" onclick="markAttendance('Mary Johnson')">Mark Present</button>
+        <span id="Mary Johnson" class="status"></span>
+    </div>
+    <div class="student">
+        <span>James Brown</span>
+        <button class="button" onclick="markAttendance('James Brown')">Mark Present</button>
+        <span id="James Brown" class="status"></span>
+    </div>
+    
+    <!-- Display the attendance report -->
+    <div>
+        <button class="generate-button" onclick="generateReport()">Generate Report</button>
+    </div>
+    
+    <!-- Attendance Report -->
+    <div id="attendanceReport">
+        <h3>Attendance Summary</h3>
+        <p id="attendanceDetails"></p>
+    </div>
+</div>
+
+<script>
+    // Array to store student attendance status
+    let attendance = {
+        'John Doe': false,
+        'Jane Smith': false,
+        'Mary Johnson': false,
+        'James Brown': false
+    };
+
+    // Function to mark attendance
+    function markAttendance(studentName) {
+        // Toggle the attendance status
+        attendance[studentName] = true;
+
+        // Update the UI with the status
+        document.getElementById(studentName).innerText = 'Present';
+        document.getElementById(studentName).style.color = 'green';
+    }
+
+    // Function to generate the attendance report
+    function generateReport() {
+        let report = '';
+        for (let student in attendance) {
+            let status = attendance[student] ? "Present" : "Absent";
+            report += `<p><strong>${student}:</strong> ${status}</p>`;
+        }
+
+        // Display the report
+        document.getElementById('attendanceDetails').innerHTML = report;
+        document.getElementById('attendanceReport').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

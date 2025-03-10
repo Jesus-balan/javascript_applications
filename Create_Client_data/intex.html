@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Data and Course Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .course-section {
+            margin-top: 40px;
+        }
+        .course-section h3 {
+            margin-bottom: 15px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Client Data & Course Registration</h2>
+
+    <!-- Client data form -->
+    <form id="clientForm">
+        <div class="form-group">
+            <label for="name">Client Name:</label>
+            <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Client Email:</label>
+            <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="course">Select Course:</label>
+            <select id="course" required>
+                <option value="" disabled selected>Select a Course</option>
+                <option value="Course A">Course A</option>
+                <option value="Course B">Course B</option>
+                <option value="Course C">Course C</option>
+            </select>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Dynamically created course tables will appear here -->
+    <div class="course-section" id="courseSection">
+        <!-- Course tables will be inserted here -->
+    </div>
+</div>
+
+<script>
+    // Sample client data storage
+    let clientData = [];
+
+    // Event listener for form submission
+    document.getElementById('clientForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Collect client data
+        let clientName = document.getElementById('name').value;
+        let clientEmail = document.getElementById('email').value;
+        let selectedCourse = document.getElementById('course').value;
+
+        // Store the client data in the array
+        clientData.push({
+            name: clientName,
+            email: clientEmail,
+            course: selectedCourse
+        });
+
+        // Clear form fields after submission
+        document.getElementById('clientForm').reset();
+
+        // Display course-specific table
+        displayCourseTable();
+    });
+
+    // Function to display course-specific tables
+    function displayCourseTable() {
+        // Get the unique courses
+        let courses = [...new Set(clientData.map(client => client.course))];
+
+        // Clear the previous content
+        document.getElementById('courseSection').innerHTML = '';
+
+        // Create a table for each course
+        courses.forEach(course => {
+            // Create a section for each course
+            let courseDiv = document.createElement('div');
+            courseDiv.classList.add('course-table');
+            let tableHeader = document.createElement('h3');
+            tableHeader.innerText = course;
+            courseDiv.appendChild(tableHeader);
+
+            // Create the table
+            let table = document.createElement('table');
+            let tableHead = document.createElement('thead');
+            let tableRow = document.createElement('tr');
+            let thName = document.createElement('th');
+            thName.innerText = 'Client Name';
+            let thEmail = document.createElement('th');
+            thEmail.innerText = 'Client Email';
+            tableRow.appendChild(thName);
+            tableRow.appendChild(thEmail);
+            tableHead.appendChild(tableRow);
+            table.appendChild(tableHead);
+
+            let tableBody = document.createElement('tbody');
+            // Filter clients based on the course
+            let filteredClients = clientData.filter(client => client.course === course);
+            filteredClients.forEach(client => {
+                let tr = document.createElement('tr');
+                let tdName = document.createElement('td');
+                tdName.innerText = client.name;
+                let tdEmail = document.createElement('td');
+                tdEmail.innerText = client.email;
+                tr.appendChild(tdName);
+                tr.appendChild(tdEmail);
+                tableBody.appendChild(tr);
+            });
+
+            table.appendChild(tableBody);
+            courseDiv.appendChild(table);
+
+            // Append the course table section to the course section
+            document.getElementById('courseSection').appendChild(courseDiv);
+        });
+    }
+</script>
+
+</body>
+</html>

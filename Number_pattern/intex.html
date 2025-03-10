@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Patterns</title>
+</head>
+<body>
+    <h1>Number Patterns</h1>
+    <pre id="patterns"></pre>
+
+    <script>
+        // Function to print Right Angled Triangle pattern
+        function rightAngledTriangle(n) {
+            let result = "";
+            // Loop to print each row
+            for (let i = 1; i <= n; i++) {
+                // Loop to print numbers in each row
+                for (let j = 1; j <= i; j++) {
+                    result += j + " ";
+                }
+                result += "\n";  // Move to the next line
+            }
+            return result;
+        }
+
+        // Function to print Inverted Right Angled Triangle pattern
+        function invertedRightAngledTriangle(n) {
+            let result = "";
+            // Loop to print each row
+            for (let i = n; i >= 1; i--) {
+                // Loop to print numbers in each row
+                for (let j = 1; j <= i; j++) {
+                    result += j + " ";
+                }
+                result += "\n";  // Move to the next line
+            }
+            return result;
+        }
+
+        // Function to print Pyramid Triangle pattern
+        function pyramidTriangle(n) {
+            let result = "";
+            // Loop to print each row
+            for (let i = 1; i <= n; i++) {
+                // Print spaces for pyramid shape
+                result += " ".repeat(n - i);
+                // Print increasing numbers
+                for (let j = 1; j <= i; j++) {
+                    result += j;
+                }
+                // Print decreasing numbers
+                for (let j = i - 1; j >= 1; j--) {
+                    result += j;
+                }
+                result += "\n";  // Move to the next line
+            }
+            return result;
+        }
+
+        // Function to print Diamond Triangle pattern
+        function diamondTriangle(n) {
+            let result = "";
+            // Top half of the diamond
+            for (let i = 1; i <= n; i++) {
+                result += " ".repeat(n - i);  // Print leading spaces
+                for (let j = 1; j <= i; j++) {
+                    result += j;  // Print increasing numbers
+                }
+                for (let j = i - 1; j >= 1; j--) {
+                    result += j;  // Print decreasing numbers
+                }
+                result += "\n";  // Move to the next line
+            }
+            // Bottom half of the diamond
+            for (let i = n - 1; i >= 1; i--) {
+                result += " ".repeat(n - i);  // Print leading spaces
+                for (let j = 1; j <= i; j++) {
+                    result += j;  // Print increasing numbers
+                }
+                for (let j = i - 1; j >= 1; j--) {
+                    result += j;  // Print decreasing numbers
+                }
+                result += "\n";  // Move to the next line
+            }
+            return result;
+        }
+
+        // Function to print Pascal's Triangle
+        function pascalTriangle(n) {
+            let result = "";
+            for (let i = 0; i < n; i++) {
+                let num = 1;
+                for (let j = 0; j <= i; j++) {
+                    result += num + " ";
+                    num = num * (i - j) / (j + 1);  // Formula for Pascal's triangle
+                }
+                result += "\n";  // Move to the next line
+            }
+            return result;
+        }
+
+        // Function to print Floyd's Triangle
+        function floydsTriangle(n) {
+            let result = "";
+            let num = 1;
+            for (let i = 1; i <= n; i++) {
+                for (let j = 1; j <= i; j++) {
+                    result += num + " ";
+                    num++;  // Increment the number
+                }
+                result += "\n";  // Move to the next line
+            }
+            return result;
+        }
+
+        // Function to print Equilateral Triangle pattern
+        function equilateralTriangle(n) {
+            let result = "";
+            for (let i = 1; i <= n; i++) {
+                result += " ".repeat(n - i);  // Print leading spaces for equilateral shape
+                for (let j = 1; j <= (2 * i - 1); j++) {
+                    result += "*";  // Print stars
+                }
+                result += "\n";  // Move to the next line
+            }
+            return result;
+        }
+
+        // Display all patterns in the 'patterns' section
+        let output = "";
+        output += "Right Angled Triangle:\n" + rightAngledTriangle(5) + "\n";
+        output += "Inverted Right Angled Triangle:\n" + invertedRightAngledTriangle(5) + "\n";
+        output += "Pyramid Triangle:\n" + pyramidTriangle(5) + "\n";
+        output += "Diamond Triangle:\n" + diamondTriangle(5) + "\n";
+        output += "Pascal's Triangle:\n" + pascalTriangle(5) + "\n";
+        output += "Floyd's Triangle:\n" + floydsTriangle(5) + "\n";
+        output += "Equilateral Triangle:\n" + equilateralTriangle(5) + "\n";
+
+        // Display the patterns in the page
+        document.getElementById("patterns").textContent = output;
+    </script>
+</body>
+</html>

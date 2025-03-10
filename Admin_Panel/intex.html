@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Showroom Admin Panel</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styles */
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .form-container div {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        th {
+            background-color: #28a745;
+            color: white;
+        }
+
+        td {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+
+        td button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        td button:hover {
+            background-color: #c82333;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .form-container {
+                flex-direction: column;
+            }
+
+            .form-container div {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Car Showroom Admin Panel</h1>
+
+        <!-- Form to Add New Car -->
+        <div class="form-container">
+            <div>
+                <label for="car-name">Car Name</label>
+                <input type="text" id="car-name" placeholder="Enter car name">
+            </div>
+            <div>
+                <label for="car-model">Car Model</label>
+                <input type="text" id="car-model" placeholder="Enter car model">
+            </div>
+            <div>
+                <label for="car-price">Price</label>
+                <input type="number" id="car-price" placeholder="Enter car price">
+            </div>
+            <div>
+                <label for="car-year">Year</label>
+                <input type="number" id="car-year" placeholder="Enter car year">
+            </div>
+            <div>
+                <label for="car-date">Date Added</label>
+                <input type="date" id="car-date">
+            </div>
+            <button onclick="addCar()">Add Car</button>
+        </div>
+
+        <!-- Table to Display Cars -->
+        <table id="car-table">
+            <thead>
+                <tr>
+                    <th>Car Name</th>
+                    <th>Model</th>
+                    <th>Price</th>
+                    <th>Year</th>
+                    <th>Date Added</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic data will go here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Initialize data in localStorage if it doesn't exist
+        if (!localStorage.getItem('cars')) {
+            localStorage.setItem('cars', JSON.stringify([]));
+        }
+
+        // Function to display the car list in the table
+        function displayCars() {
+            let cars = JSON.parse(localStorage.getItem('cars'));
+            const tableBody = document.getElementById('car-table').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear existing table rows
+
+            // Loop through all cars and add rows to the table
+            cars.forEach((car, index) => {
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                    <td>${car.name}</td>
+                    <td>${car.model}</td>
+                    <td>${car.price}</td>
+                    <td>${car.year}</td>
+                    <td>${car.date}</td>
+                    <td><button onclick="deleteCar(${index})">Delete</button></td>
+                `;
+            });
+        }
+
+        // Function to add a car to the list
+        function addCar() {
+            let carName = document.getElementById('car-name').value;
+            let carModel = document.getElementById('car-model').value;
+            let carPrice = document.getElementById('car-price').value;
+            let carYear = document.getElementById('car-year').value;
+            let carDate = document.getElementById('car-date').value;
+
+            if (!carName || !carModel || !carPrice || !carYear || !carDate) {
+                alert('Please fill all the fields!');
+                return;
+            }
+
+            // Create a car object and add it to the localStorage array
+            let car = {
+                name: carName,
+                model: carModel,
+                price: carPrice,
+                year: carYear,
+                date: carDate,
+            };
+
+            let cars = JSON.parse(localStorage.getItem('cars'));
+            cars.push(car);
+            localStorage.setItem('cars', JSON.stringify(cars));
+
+            // Clear form fields
+            document.getElementById('car-name').value = '';
+            document.getElementById('car-model').value = '';
+            document.getElementById('car-price').value = '';
+            document.getElementById('car-year').value = '';
+            document.getElementById('car-date').value = '';
+
+            // Display the updated list
+            displayCars();
+        }
+
+        // Function to delete a car from the list
+        function deleteCar(index) {
+            let cars = JSON.parse(localStorage.getItem('cars'));
+            cars.splice(index, 1); // Remove the car at the specified index
+            localStorage.setItem('cars', JSON.stringify(cars));
+            displayCars(); // Refresh the table display
+        }
+
+        // Display cars when the page loads
+        window.onload = function () {
+            displayCars();
+        };
+    </script>
+
+</body>
+</html>
